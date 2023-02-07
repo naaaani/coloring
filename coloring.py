@@ -5,18 +5,16 @@ from PIL import Image
 
 def main():
 
-    image = Image.open('volt.jpg')
+    image = Image.open('pixelcat.png')
 
-    image.show()
+    image_flip = flip_horizontal(image)
+    image_flip.show()
 
     grey_img = grey(image)
-    # grey_img.show()
+    grey_img.show()
 
-    for i in range(5):
-
-        image = blur(image)
-
-    image.show()
+    image_blur = blur(image)
+    image_blur.show()
 
 
 def grey(image):
@@ -84,6 +82,21 @@ def get_pixel(pixels, x, y, channel, w, h):
 
     return pixels[x, y][channel]
 
+def flip_horizontal(image):
+
+    flip_img = image.copy()
+    pixels = flip_img.load()
+
+    (w, h,) = image.size
+    
+    for x in range(int(w / 2)):
+        for y in range(h):
+
+            save_pixel = pixels[x, y]
+            pixels[x, y] = pixels[w - 1 - x, y]
+            pixels[w - 1 - x, y] = save_pixel
+            
+    return flip_img
 
 if __name__ == "__main__":
     main()
