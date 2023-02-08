@@ -5,10 +5,14 @@ from PIL import Image
 
 def main():
 
-    image = Image.open('pixelcat.png')
+    image = Image.open('falcon.jpg')
 
-    image_flip = flip_horizontal(image)
-    image_flip.show()
+    image_flip_v  = flip_vertical(image)
+    image_flip_v.show()
+    quit()
+
+    image_flip_h = flip_horizontal(image)
+    image_flip_h.show()
 
     grey_img = grey(image)
     grey_img.show()
@@ -30,7 +34,7 @@ def grey(image):
             except ValueError:
                 print("Bad image format")
                 quit()
-                
+
             grey = int(0.299 * r + 0.587 * g + 0.114 * b)
             pixels[x, y] = (grey, grey, grey)
 
@@ -100,6 +104,22 @@ def flip_horizontal(image):
             save_pixel = pixels[x, y]
             pixels[x, y] = pixels[w - 1 - x, y]
             pixels[w - 1 - x, y] = save_pixel
+            
+    return flip_img
+
+def flip_vertical(image):
+
+    flip_img = image.copy()
+    pixels = flip_img.load()
+
+    (w, h,) = image.size
+    
+    for x in range(w):
+        for y in range(int(h/2)):
+
+            save_pixel = pixels[x, y]
+            pixels[x, y] = pixels[x, h - 1 - y]
+            pixels[x, h - 1 - y] = save_pixel
             
     return flip_img
 
